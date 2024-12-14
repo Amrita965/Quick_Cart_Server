@@ -13,13 +13,13 @@ from django.db.models import Q
 def customer_list(request, uid=None):
 
     if request.method == "GET":
-        if id:
+        if uid:
             print(type(request.GET.get('page')))
             page = int(request.GET.get('page'))
             limit = int(request.GET.get('limit'))
             search_text = request.GET.get('search', '')
 
-            print(search_text)
+            # print(search_text)
         
             user = User.objects.get(pk=uid)
             # total_objects = MyModel.objects.count()
@@ -30,16 +30,16 @@ def customer_list(request, uid=None):
                     customers = user.customers.filter(
                          Q(id=search_text) |
                          Q(mobile__icontains=search_text)
-                    )
+                    ).order_by('-id')
 
                 else:
                     customers = user.customers.filter(
                         Q(name__icontains=search_text) |
                         Q(email__icontains=search_text) 
-                    )
+                    ).order_by('-id')
         
             else:
-                customers = user.customers.all()[(page - 1) * limit : (page * limit)]
+                customers = user.customers.all().order_by('-id')[(page - 1) * limit : (page * limit)]
             
             serializer = CustomerSerializer(customers, many=True)
             return Response({"total": total_customer, "customers":serializer.data})
