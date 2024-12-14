@@ -1,8 +1,8 @@
 
 from django.urls import path
-from Customer_App.views import customer_view
-
+from Customer_App.views import customer_list, customer_detail
 urlpatterns = [
-    path('customers/', customer_view),
-    path('customers/<int:id>', customer_view)
+    path('customers/<int:pk>', customer_detail),
+    path('customers/', customer_list),
+    path('customers/<str:uid>', customer_list),
 ]
