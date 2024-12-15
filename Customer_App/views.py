@@ -14,7 +14,7 @@ def customer_list(request, uid=None):
 
     if request.method == "GET":
         if uid:
-            print(type(request.GET.get('page')))
+
             page = int(request.GET.get('page'))
             limit = int(request.GET.get('limit'))
             search_text = request.GET.get('search', '')

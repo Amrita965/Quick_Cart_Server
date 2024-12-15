@@ -7,6 +7,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('', include('User_App.urls')),
     path('', include('Customer_App.urls')),
-    path('', include('Category_App.urls'))
+    path('', include('Category_App.urls')),
+    path('', include('Dashboard.urls'))
 
 ]
