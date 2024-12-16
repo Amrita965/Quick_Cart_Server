@@ -6,6 +6,7 @@ from Category_App.models import Category
 from User_App.models import User
 from rest_framework import status
 
+
 # Create your views here.
 
 @api_view(["GET"])
@@ -18,10 +19,12 @@ def dashborad_status(request, pk):
     
     total_categories = len(user.categories.all())
     total_customers = len(user.customers.all())
+    total_products = len(user.products.all())
 
     data = {
         "total_categories": total_categories,
-        "total_customers": total_customers
+        "total_customers": total_customers,
+        "total_products": total_products
     }
 
     return Response(data)
