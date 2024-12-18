@@ -16,8 +16,8 @@ def category_list(request, pk=None):
         if pk is not None:
             user = User.objects.get(pk=pk)
             searchText = request.GET.get("searchText", "")
-            page = int(request.GET.get("page"))
-            limit = int(request.GET.get("limit"))
+            page = int(request.GET.get("page", 0))
+            limit = int(request.GET.get("limit", 0))
             
             total = Category.objects.count()
 
@@ -29,7 +29,10 @@ def category_list(request, pk=None):
                         name__icontains = searchText
                     ))
             else:
-                categories = user.categories.all().order_by("-id")[(page -1) * limit: page * limit]
+                if  page and limit:
+                    categories = user.categories.all().order_by("-id")[(page -1) * limit: page * limit]
+                else:
+                    categories = user.categories.all().order_by("name")
 
             serializer = CategorySerializer(categories, many=True)
             return Response({
@@ -59,7 +62,6 @@ def category_detail(request, pk):
         return Response(serializer.data)
     
     if request.method == "PATCH":
-        print(request.data)
         serializer = CategorySerializer(category, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()

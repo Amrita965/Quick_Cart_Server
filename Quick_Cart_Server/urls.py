@@ -9,6 +9,7 @@ urlpatterns = [
     path('', include('Customer_App.urls')),
     path('', include('Category_App.urls')),
     path('', include('Dashboard.urls')),
-    path('', include('Product_App.urls'))
+    path('', include('Product_App.urls')),
+    path('', include('Invoice_App.urls')),
 
 ]

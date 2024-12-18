@@ -10,8 +10,7 @@ from rest_framework import status
 def user_list(request):
 
     if request.method == "POST":
-        print(request.POST)
-        print(request.data)
+
         serializer = UserSerializer(data=request.data)
         
         if serializer.is_valid():
@@ -22,10 +21,6 @@ def user_list(request):
 
 @api_view(["GET", "PATCH", "DELETE"])
 def user_detail(request, pk):
-
-    print(pk)
-    print(request.data)
-
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:

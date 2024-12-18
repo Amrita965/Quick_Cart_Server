@@ -18,8 +18,6 @@ def customer_list(request, uid=None):
             page = int(request.GET.get('page'))
             limit = int(request.GET.get('limit'))
             search_text = request.GET.get('search', '')
-
-            # print(search_text)
         
             user = User.objects.get(pk=uid)
             # total_objects = MyModel.objects.count()
