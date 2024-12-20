@@ -20,8 +20,6 @@ def customer_list(request, uid=None):
             search_text = request.GET.get('search', '')
         
             user = User.objects.get(pk=uid)
-            # total_objects = MyModel.objects.count()
-            total_customer = Customer.objects.count()
 
             if search_text:
                 if search_text.isdigit():
@@ -38,6 +36,8 @@ def customer_list(request, uid=None):
         
             else:
                 customers = user.customers.all().order_by('-id')[(page - 1) * limit : (page * limit)]
+
+            total_customer = user.customers.count()
             
             serializer = CustomerSerializer(customers, many=True)
             return Response({"total": total_customer, "customers":serializer.data})

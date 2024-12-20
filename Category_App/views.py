@@ -1,4 +1,4 @@
-# from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import CategorySerializer
@@ -6,6 +6,7 @@ from rest_framework import status
 from User_App.models import User
 from Category_App.models import Category
 from django.db.models import Q
+import json
 
 # Create your views here.
 
@@ -19,7 +20,7 @@ def category_list(request, pk=None):
             page = int(request.GET.get("page", 0))
             limit = int(request.GET.get("limit", 0))
             
-            total = Category.objects.count()
+            total = user.categories.count()
 
             if searchText:
                 if searchText.isdigit():
@@ -35,10 +36,10 @@ def category_list(request, pk=None):
                     categories = user.categories.all().order_by("name")
 
             serializer = CategorySerializer(categories, many=True)
-            return Response({
+            return HttpResponse(json.dumps({
                 "total": total,
                 "categories": serializer.data
-            })
+            }), content_type="application/json")
 
     if request.method == "POST":
         serializer = CategorySerializer(data=request.data)

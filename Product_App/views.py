@@ -15,8 +15,8 @@ def product_list(request, pk=None):
 
     if(request.method == "GET"): 
         if pk is not None:
-            # page = request.POST.get("page")
-            # limit = request.POST.get("limit")
+            page = int(request.GET.get("page"))
+            limit = int(request.GET.get("limit"))
             searchText = request.GET.get("searchText", "")
 
             print(request.GET)
@@ -29,9 +29,9 @@ def product_list(request, pk=None):
                 else:
                     products = user.products.filter(Q(name__icontains = searchText))
             else:
-                products = user.products.all().order_by("-id")
+                products = user.products.all().order_by("-id")[(page - 1) * limit : (page * limit)]
             
-            total = Product.objects.count()
+            total = user.products.count()
 
             serializer = ProductSerializer(products, many=True)
 

@@ -11,20 +11,20 @@ class Invoice(models.Model):
     discount = models.FloatField()
     vat = models.FloatField()
     payable = models.FloatField()
-    user = models.ForeignKey(User, on_delete=models.RESTRICT)
-    customer = models.ForeignKey(Customer, on_delete=models.RESTRICT)
+    user = models.ForeignKey(User, on_delete=models.RESTRICT, related_name="invoices")
+    customer = models.ForeignKey(Customer, on_delete=models.RESTRICT, related_name="invoices")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        pass
+    # def __str__(self):
+    #     pass
 
     class Meta:
         db_table = "invoices"
 
 class InvoiceProduct(models.Model):
 
-    invoice = models.ForeignKey(Invoice, on_delete=models.RESTRICT)
+    invoice = models.ForeignKey(Invoice, on_delete=models.RESTRICT, related_name="invoice_products")
     product = models.ForeignKey(Product, on_delete=models.RESTRICT)
     user = models.ForeignKey(User, on_delete=models.RESTRICT)
     quantity = models.IntegerField()
